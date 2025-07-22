@@ -1,24 +1,58 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import locations from '@/data/Locations.json'
+import trendsRaw from '@/data/trends.json'
+import type { Trend, TrendMap } from '@/types/trends'
+import MetricCard from '@/components/MetricCard.vue'
+
+const selectedLocation = ref(locations[0]) // Default to the first location
+
+const metrics = computed(() => {
+  const trends: TrendMap = trendsRaw
+  const trend: Trend = trends[String(selectedLocation.value.id)]
+
+  if (!trend) return []
+
+  return [
+    {
+      label: 'Average Ranking',
+      value: trend.current.average.toFixed(1),
+      delta: calcDelta(trend.current.average, trend.previous.average),
+    },
+    {
+      label: 'Top 3%',
+      value: `${trend.current.top_3_percentage.toFixed(0)}%`,
+      delta: calcDelta(trend.current.top_3_percentage, trend.previous.top_3_percentage, true),
+    },
+    {
+      label: 'Market Share',
+      value: `${trend.current.market_share_percentage.toFixed(0)}%`,
+      delta: calcDelta(
+        trend.current.market_share_percentage,
+        trend.previous.market_share_percentage,
+        true,
+      ),
+    },
+  ]
+})
+
+function calcDelta(current: number, previous: number, isPercent = false) {
+  const diff = current - previous
+  const sign = diff >= 0 ? '+' : ''
+  return `${sign}${isPercent ? diff.toFixed(0) : diff.toFixed(1)}${isPercent ? '%' : ''}`
+}
+</script>
+
 <template>
   <div class="space-y-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div
+      <MetricCard
         v-for="metric in metrics"
-        :key="metric.key"
-        class="bg-background p-4 rounded-sm flex flex-col gap-1 border border-default"
-      >
-        <div class="text-sm">{{ metric.label }}</div>
-        <div class="text-xl font-semibold text-heading">{{ metric.value }}</div>
-      </div>
+        :key="metric.label"
+        :label="metric.label"
+        :value="metric.value"
+        :delta="metric.delta"
+      />
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const metrics = [
-  { key: 'average', label: 'Average', value: 12 },
-  { key: 'top_3_position', label: 'Top 3 Position', value: 28.9 },
-  { key: 'top_3_percentage', label: 'Top 3 %', value: '68.5%' },
-  { key: 'market_share_position', label: 'Market Share Pos.', value: 15 },
-  { key: 'market_share_percentage', label: 'Market Share %', value: '72.4%' },
-]
-</script>
