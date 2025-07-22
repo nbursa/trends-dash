@@ -33,6 +33,18 @@
     color: var(--color-danger);
   }
 
+  .text-gold {
+    color: var(--color-gold);
+  }
+
+  .fill-gold {
+    fill: var(--color-gold);
+  }
+
+  .stroke-gold {
+    stroke: var(--color-gold);
+  }
+
   .border-default {
     border-color: var(--color-border);
   }

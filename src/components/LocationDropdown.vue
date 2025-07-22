@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { defineProps, defineEmits } from 'vue'
+import locations from '@/data/Locations.json'
+import type { Location } from '@/types/location'
+import StarRating from '@/components/StarRating.vue'
+
+const props = defineProps<{
+  selected: Location
+}>()
+
+const emit = defineEmits(['update:selected'])
+
+const localSelectedId = ref(props.selected.id)
+
+function emitSelected() {
+  const newSelected = locations.find((loc) => loc.id === Number(localSelectedId.value))
+  if (newSelected) emit('update:selected', newSelected)
+}
+
+function formatAddress(loc: Location) {
+  return [loc.address, loc.city, loc.zip_code].filter(Boolean).join(', ')
+}
+</script>
+
 <template>
   <div class="flex items-start gap-4">
     <div class="flex flex-col text-sm gap-0.5">
@@ -7,10 +32,12 @@
         </option>
       </select>
 
-      <div class="text-soft leading-tight">
-        {{ selected.ave_review_rating?.toFixed(1) }} <span class="text-yellow-400">STARS</span> ({{
-          selected.review_count
-        }})
+      <div class="flex gap-1 text-soft leading-tight">
+        {{ selected.ave_review_rating?.toFixed(1) }}
+
+        <StarRating :rating="selected.ave_review_rating ?? 0" :max="5" />
+
+        ({{ selected.review_count }})
       </div>
 
       <div class="text-soft leading-tight">
@@ -45,27 +72,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { defineProps, defineEmits } from 'vue'
-import locations from '@/data/Locations.json'
-import type { Location } from '@/types/location'
-
-const props = defineProps<{
-  selected: Location
-}>()
-
-const emit = defineEmits(['update:selected'])
-
-const localSelectedId = ref(props.selected.id)
-
-function emitSelected() {
-  const newSelected = locations.find((loc) => loc.id === Number(localSelectedId.value))
-  if (newSelected) emit('update:selected', newSelected)
-}
-
-function formatAddress(loc: Location) {
-  return [loc.address, loc.city, loc.zip_code].filter(Boolean).join(', ')
-}
-</script>

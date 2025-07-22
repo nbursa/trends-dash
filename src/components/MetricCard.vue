@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = defineProps<{
+  label: string
+  value: string | number
+  delta: string
+}>()
+
+const { delta } = props
+const isPositive = computed(() => delta.startsWith('+'))
+</script>
+
 <template>
   <div
     class="bg-background p-4 rounded-sm border border-default flex items-center gap-4 w-full max-w-[300px] 2xl:w-[300px]"
@@ -20,16 +33,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-
-const props = defineProps<{
-  label: string
-  value: string | number
-  delta: string
-}>()
-
-const { delta } = props
-const isPositive = computed(() => delta.startsWith('+'))
-</script>
