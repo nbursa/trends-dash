@@ -62,7 +62,7 @@ const chartOptions = computed(() => ({
       opacityTo: 0.5,
       stops: [0, 100],
     },
-    colors: ['#28A6BD'],
+    colors: [getCssVar('--color-accent')],
   },
   xaxis: {
     type: 'category',
@@ -71,7 +71,7 @@ const chartOptions = computed(() => ({
       style: {
         fontSize: '12px',
         fontWeight: '600',
-        colors: '#7D8EA0',
+        colors: getCssVar('--color-text-muted'),
       },
     },
   },
@@ -95,7 +95,7 @@ const chartOptions = computed(() => ({
   markers: {
     size: 8,
     colors: ['transparent'],
-    strokeColors: '#ffffff',
+    strokeColors: getCssVar('--color-background'),
     strokeWidth: 4,
     shape: 'circle',
     hover: {
@@ -114,6 +114,9 @@ const chartOptions = computed(() => ({
     enabled: false,
   },
 }))
+
+const getCssVar = (name: string): string =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 </script>
 
 <template>
@@ -123,20 +126,20 @@ const chartOptions = computed(() => ({
       <span class="text-[22px] font-semibold leading-none">Ranking Position</span>
     </div>
 
-    <div class="p-8 flex gap-4 mb-4">
+    <div class="p-8 flex mb-4 divide-x divide-[var(--color-border)]">
       <label
         v-for="metric in metrics"
         :key="metric.key"
-        class="inline-flex gap-2 items-center cursor-pointer"
+        class="inline-flex gap-2 items-center cursor-pointer px-6 first:pl-0 last:pr-0"
       >
         <input
           type="radio"
-          class="form-radio text-primary"
+          class="custom-radio"
           name="metric"
           :value="metric.key"
           v-model="selectedMetric"
         />
-        <span class="ml-2 text-sm font-semibold">{{ metric.label }}</span>
+        <span class="text-sm font-semibold">{{ metric.label }}</span>
       </label>
     </div>
 
@@ -145,8 +148,8 @@ const chartOptions = computed(() => ({
         <svg width="0" height="0">
           <defs>
             <linearGradient id="marker-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#97c72f" />
-              <stop offset="100%" stop-color="#1ca2cc" />
+              <stop offset="0%" stop-color="var(--color-green)" />
+              <stop offset="100%" stop-color="var(--color-accent)" />
             </linearGradient>
           </defs>
         </svg>
@@ -156,10 +159,3 @@ const chartOptions = computed(() => ({
     <div v-else class="text-center">No data available</div>
   </div>
 </template>
-
-<style scoped>
-:deep(.apexcharts-marker) {
-  fill: url(#marker-gradient);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-</style>

@@ -40,4 +40,41 @@
   .bg-gradient-ls {
     background-image: var(--color-gradient-ls);
   }
+
+  .apexcharts-marker {
+    fill: url(#marker-gradient);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+}
+
+@layer components {
+  .custom-radio {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-background);
+    position: relative;
+    display: inline-block;
+  }
+
+  .custom-radio:checked {
+    border: 1px solid var(--color-border);
+  }
+
+  .custom-radio:checked::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, var(--color-green), var(--color-accent));
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
