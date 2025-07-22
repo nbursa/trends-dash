@@ -110,6 +110,21 @@ const chartOptions = computed(() => ({
       opacity: 1,
     },
   },
+  grid: {
+    show: true,
+    borderColor: getCssVar('--color-border'),
+    strokeDashArray: 0,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    yaxis: {
+      lines: {
+        show: true,
+      },
+    },
+  },
   dataLabels: {
     enabled: false,
   },
