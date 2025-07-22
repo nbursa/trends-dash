@@ -2,54 +2,42 @@
 @import 'tailwindcss';
 @import 'tailwindcss/utilities';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-}
-
 @layer utilities {
   .bg-background {
     background-color: var(--color-background);
   }
 
-  .text-text {
+  .text-base {
     color: var(--color-text);
   }
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+  .text-soft {
+    color: var(--color-text-soft);
+  }
+  .text-heading {
+    color: var(--color-heading);
+  }
+  .text-link {
+    color: var(--color-link);
+  }
 
-  .border-border {
+  .text-success {
+    color: var(--color-success);
+  }
+  .text-accent {
+    color: var(--color-accent);
+  }
+  .text-danger {
+    color: var(--color-danger);
+  }
+
+  .border-default {
     border-color: var(--color-border);
   }
 
-  .hover\:border-border-hover:hover {
-    border-color: var(--color-border-hover);
+  .bg-gradient-ls {
+    background-image: var(--color-gradient-ls);
   }
 }
