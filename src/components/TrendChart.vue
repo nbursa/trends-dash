@@ -47,14 +47,22 @@ const chartOptions = computed(() => ({
     height: 350,
     toolbar: { show: false },
   },
-  colors: ['#28A6BD'],
   stroke: {
     width: 3,
     curve: 'straight',
   },
   fill: {
-    type: 'solid',
-    opacity: 1,
+    type: 'gradient',
+    gradient: {
+      shade: 'light',
+      type: 'vertical',
+      shadeIntensity: 0.4,
+      inverseColors: false,
+      opacityFrom: 0.3,
+      opacityTo: 0.5,
+      stops: [0, 100],
+    },
+    colors: ['#28A6BD'],
   },
   xaxis: {
     type: 'category',
@@ -86,7 +94,7 @@ const chartOptions = computed(() => ({
   },
   markers: {
     size: 8,
-    colors: ['#97c72f', '#1ca2cc'],
+    colors: ['transparent'],
     strokeColors: '#ffffff',
     strokeWidth: 4,
     shape: 'circle',
@@ -96,11 +104,14 @@ const chartOptions = computed(() => ({
     discrete: [],
     dropShadow: {
       enabled: true,
-      top: 0,
+      top: 1,
       left: 0,
-      blur: 2,
+      blur: 8,
       opacity: 1,
     },
+  },
+  dataLabels: {
+    enabled: false,
   },
 }))
 </script>
@@ -130,8 +141,24 @@ const chartOptions = computed(() => ({
     </div>
 
     <div v-if="series.length" class="px-4 py-0">
-      <ApexCharts type="line" :options="chartOptions" :series="series" height="350" />
+      <div class="relative">
+        <svg width="0" height="0">
+          <defs>
+            <linearGradient id="marker-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#97c72f" />
+              <stop offset="100%" stop-color="#1ca2cc" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <ApexCharts type="area" :options="chartOptions" :series="series" height="350" />
+      </div>
     </div>
     <div v-else class="text-center">No data available</div>
   </div>
 </template>
+
+<style scoped>
+:deep(.apexcharts-marker) {
+  fill: url(#marker-gradient);
+}
+</style>
