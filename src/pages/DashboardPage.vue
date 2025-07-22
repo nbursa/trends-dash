@@ -2,11 +2,13 @@
 import { computed, ref } from 'vue'
 import locations from '@/data/Locations.json'
 import trendsRaw from '@/data/trends.json'
+import trendsHistoryRaw from '@/data/trends-history.json'
 import type { Trend, TrendMap } from '@/types/trends'
 import LocationDropdown from '@/components/LocationDropdown.vue'
 import MetricCard from '@/components/MetricCard.vue'
+import TrendChart from '@/components/TrendChart.vue'
 
-const selectedLocation = ref(locations[0]) // Default to the first location
+const selectedLocation = ref(locations[0])
 
 const metrics = computed(() => {
   const trends: TrendMap = trendsRaw
@@ -63,6 +65,8 @@ function calcDelta(current: number, previous: number, isPercent = false) {
           />
         </div>
       </div>
+
+      <TrendChart :location-id="selectedLocation.id" :history-data="trendsHistoryRaw" />
     </div>
   </main>
 </template>
