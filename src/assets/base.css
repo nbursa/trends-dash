@@ -10,7 +10,8 @@
   --color-link: #1844d8;
 
   /* Accent */
-  --color-success: #97c72f;
+  --color-green: #97c72f;
+  --color-success: #00acad;
   --color-accent: #1ca2cc;
   --color-danger: #f91717;
 
@@ -18,7 +19,7 @@
   --color-border: #dddddd;
 
   /* Gradients */
-  --color-gradient-ls: linear-gradient(90deg, var(--color-success) 0%, var(--color-accent) 100%);
+  --color-gradient-ls: linear-gradient(90deg, var(--color-green) 0%, var(--color-accent) 100%);
 }
 
 *,
