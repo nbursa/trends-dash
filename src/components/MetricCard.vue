@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-background p-4 rounded-sm border border-default flex items-center gap-4 w-[300px]">
+  <div
+    class="bg-background p-4 rounded-sm border border-default flex items-center gap-4 w-full max-w-[300px] 2xl:w-[300px]"
+  >
     <div class="flex flex-col justify-center gap-1 flex-1">
       <div class="text-accent text-2xl font-semibold leading-none">{{ value }}</div>
       <div class="text-text text-xs font-semibold leading-none">{{ label }}</div>

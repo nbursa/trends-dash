@@ -43,7 +43,7 @@ const series = computed(() => {
 
 const chartOptions = computed(() => ({
   chart: {
-    type: 'line',
+    type: 'area',
     height: 350,
     toolbar: { show: false },
   },
@@ -52,14 +52,28 @@ const chartOptions = computed(() => ({
     width: 3,
     curve: 'straight',
   },
+  fill: {
+    type: 'solid',
+    opacity: 1,
+  },
   xaxis: {
     type: 'category',
     labels: {
       rotate: -45,
+      style: {
+        fontSize: '12px',
+        fontWeight: '600',
+        colors: '#7D8EA0',
+      },
     },
   },
   yaxis: {
     decimalsInFloat: 0,
+    labels: {
+      style: {
+        fontSize: '13px',
+      },
+    },
   },
   tooltip: {
     shared: true,
@@ -72,7 +86,7 @@ const chartOptions = computed(() => ({
   },
   markers: {
     size: 8,
-    colors: ['#00B2FF'],
+    colors: ['#97c72f', '#1ca2cc'],
     strokeColors: '#ffffff',
     strokeWidth: 4,
     shape: 'circle',
@@ -84,20 +98,25 @@ const chartOptions = computed(() => ({
       enabled: true,
       top: 0,
       left: 0,
-      blur: 6,
-      opacity: 0.5,
+      blur: 2,
+      opacity: 1,
     },
   },
 }))
 </script>
 
 <template>
-  <div>
-    <div class="flex gap-4 mb-4">
+  <div class="border border-default flex flex-col bg-background">
+    <div class="px-8 py-4 flex items-center gap-2 mb-4 border-b border-default">
+      <img src="@/assets/icons/ranking.svg" alt="Ranking icon" class="h-7.5 w-auto" />
+      <span class="text-[22px] font-semibold leading-none">Ranking Position</span>
+    </div>
+
+    <div class="p-8 flex gap-4 mb-4">
       <label
         v-for="metric in metrics"
         :key="metric.key"
-        class="inline-flex gap-1 items-center cursor-pointer"
+        class="inline-flex gap-2 items-center cursor-pointer"
       >
         <input
           type="radio"
@@ -106,12 +125,13 @@ const chartOptions = computed(() => ({
           :value="metric.key"
           v-model="selectedMetric"
         />
-        <span class="ml-2">{{ metric.label }}</span>
+        <span class="ml-2 text-sm font-semibold">{{ metric.label }}</span>
       </label>
     </div>
-    <div v-if="series.length">
+
+    <div v-if="series.length" class="px-4 py-0">
       <ApexCharts type="line" :options="chartOptions" :series="series" height="350" />
     </div>
-    <div v-else class="text-center text-gray-400">No data available</div>
+    <div v-else class="text-center">No data available</div>
   </div>
 </template>
