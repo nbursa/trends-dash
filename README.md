@@ -15,8 +15,8 @@ pnpm lint     # Linting
 
 - **Location dropdown**: Triggers updates on metric cards and trend chart.
 - **Metric cards**: Displays five metrics, handles nulls with --, includes star rating.
-- **Trend chart**: chart with metric switching, gradients, shadows, grid lines.
-- **UI/UX**: Fully responsive. Figma-compliant design, transitions, tooltips, loading states.
+- **Trend chart**: Chart with metric switching, gradients, shadows, grid lines.
+- **UI/UX**: Fully responsive, Figma-compliant design, transitions, tooltips, loading states.
 
 ## Notes
 
