@@ -141,11 +141,11 @@ const getCssVar = (name: string): string =>
       <span class="text-[22px] font-semibold leading-none">Ranking Position</span>
     </div>
 
-    <div class="p-8 flex mb-4 divide-x divide-[var(--color-border)]">
+    <div class="p-8 flex flex-wrap mb-4 xl:divide-x xl:divide-[var(--color-border)]">
       <label
         v-for="metric in metrics"
         :key="metric.key"
-        class="inline-flex gap-2 items-center cursor-pointer px-6 first:pl-0 last:pr-0"
+        class="inline-flex gap-2 items-center cursor-pointer pb-2 xl:pl-6 pr-6 first:pl-0 last:pr-0"
       >
         <input
           type="radio"

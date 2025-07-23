@@ -47,15 +47,15 @@ function calcDelta(current: number, previous: number, isPercent = false) {
 </script>
 
 <template>
-  <main class="w-full min-h-screen px-4 md:px-8 py-20 bg-background flex justify-center">
+  <main class="w-full min-h-screen p-4 md:px-8 sm:py-20 bg-background flex justify-center">
     <div class="w-full mx-auto flex flex-col gap-8">
       <div class="flex flex-col xl:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <img src="@/assets/images/Logo.png" alt="Logo" class="w-20 h-auto mb-4" />
           <LocationDropdown v-model:selected="selectedLocation" />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="w-full xl:w-auto grid grid-cols-1 md:grid-cols-3 gap-4">
           <MetricCard
             v-for="metric in metrics"
             :key="metric.label"
