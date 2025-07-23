@@ -1,37 +1,29 @@
-# trends-dash
+# Trends Dashboard – Frontend
 
-## Recommended IDE Setup
+Interactive trends dashboard built with Vue 3, Pinia, Tailwind CSS, and ApexCharts.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Setup
 
 ```sh
 pnpm install
+pnpm dev      # Dev server
+pnpm build    # Production
+pnpm lint     # Linting
 ```
 
-### Compile and Hot-Reload for Development
+## Features
 
-```sh
-pnpm dev
-```
+- **Location dropdown**: Triggers updates on metric cards and trend chart.
+- **Metric cards**: Displays five metrics, handles nulls with --, includes star rating.
+- **Trend chart**: chart with metric switching, gradients, shadows, grid lines.
+- **UI/UX**: Fully responsive. Figma-compliant design, transitions, tooltips, loading states.
 
-### Type-Check, Compile and Minify for Production
+## Notes
 
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+- Data is local in public/.
+- App loads with first location pre-selected.
+- Local-only app; no backend or APIs required.
+- Numbers are formatted (%, rounding) and missing values shown as "--".
+- Chart uses time-based X-axis, with distinct color-coded lines for each metric.
+- Includes component-based architecture and custom loading/transition animations.
+- Bonus animated chart updates, tooltip on hover, custom star rating, vertical grid lines.
