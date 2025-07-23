@@ -135,7 +135,7 @@ const getCssVar = (name: string): string =>
 </script>
 
 <template>
-  <div class="border border-default flex flex-col bg-background">
+  <div class="relative border border-default flex flex-col bg-background">
     <div class="px-8 py-4 flex items-center gap-2 mb-4 border-b border-default">
       <img src="@/assets/icons/ranking.svg" alt="Ranking icon" class="h-7.5 w-auto" />
       <span class="text-[22px] font-semibold leading-none">Ranking Position</span>
@@ -168,9 +168,11 @@ const getCssVar = (name: string): string =>
             </linearGradient>
           </defs>
         </svg>
+
         <ApexCharts type="area" :options="chartOptions" :series="series" height="350" />
       </div>
     </div>
-    <div v-else class="text-center">No data available</div>
+
+    <div v-else class="absolute inset-0 flex items-center justify-center">No data available</div>
   </div>
 </template>

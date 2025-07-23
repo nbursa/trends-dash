@@ -63,7 +63,7 @@ function calcDelta(current: number, previous: number, isPercent = false) {
 </script>
 
 <template>
-  <main class="w-full min-h-screen p-4 md:px-8 sm:py-20 bg-background flex justify-center">
+  <main class="relative w-full min-h-screen p-4 md:px-8 sm:py-20 bg-background flex justify-center">
     <div v-if="selectedLocation" class="w-full mx-auto flex flex-col gap-8">
       <div class="flex flex-col xl:flex-row items-center justify-between gap-6">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -71,24 +71,32 @@ function calcDelta(current: number, previous: number, isPercent = false) {
           <LocationDropdown v-model:selected="selectedLocation" :locations="store.locations" />
         </div>
 
-        <div class="w-full xl:w-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+        <transition-group
+          name="slide-fade"
+          tag="div"
+          class="w-full xl:w-auto grid grid-cols-1 md:grid-cols-3 gap-4"
+        >
           <MetricCard
             v-for="metric in metrics"
-            :key="metric.label"
+            :key="metric.label + '-' + selectedLocation?.id"
             :label="metric.label"
             :value="metric.value"
             :delta="metric.delta"
           />
-        </div>
+        </transition-group>
       </div>
 
-      <TrendChart
-        v-if="selectedLocation"
-        :location-id="selectedLocation.id"
-        :history-data="store.trendsHistory"
-      />
+      <transition name="fade" mode="out-in">
+        <TrendChart
+          v-if="selectedLocation"
+          :key="selectedLocation.id"
+          class="min-h-[300px] relative"
+          :location-id="selectedLocation.id"
+          :history-data="store.trendsHistory"
+        />
+      </transition>
     </div>
 
-    <div v-else class="text-center text-gray-500">Loading...</div>
+    <div v-else class="absolute inset-0 flex items-center justify-center z-10">Loading...</div>
   </main>
 </template>
