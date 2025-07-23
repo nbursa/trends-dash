@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { defineProps, defineEmits } from 'vue'
-import locations from '@/data/Locations.json'
 import type { Location } from '@/types/location'
 import StarRating from '@/components/StarRating.vue'
 
 const props = defineProps<{
-  selected: Location
+  selected: Location | null
+  locations: Location[]
 }>()
 
 const emit = defineEmits(['update:selected'])
 
-const localSelectedId = ref(props.selected.id)
+const localSelectedId = ref(props.selected?.id ?? null)
 
 function emitSelected() {
-  const newSelected = locations.find((loc) => loc.id === Number(localSelectedId.value))
+  const newSelected = props.locations.find((loc) => loc.id === Number(localSelectedId.value))
   if (newSelected) emit('update:selected', newSelected)
 }
 
@@ -24,7 +24,7 @@ function formatAddress(loc: Location) {
 </script>
 
 <template>
-  <div class="flex items-start gap-4">
+  <div v-if="selected" class="flex items-start gap-4">
     <div class="flex flex-col text-sm gap-0.5">
       <select v-model="localSelectedId" @change="emitSelected" class="text-base font-semibold mb-1">
         <option v-for="loc in locations" :key="loc.id" :value="loc.id">

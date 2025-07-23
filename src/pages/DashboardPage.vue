@@ -1,17 +1,33 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import locations from '@/data/Locations.json'
-import trendsRaw from '@/data/trends.json'
-import trendsHistoryRaw from '@/data/trends-history.json'
+import { computed, onMounted, ref, watch } from 'vue'
 import type { Trend, TrendMap } from '@/types/trends'
+import type { Location } from '@/types/location'
 import LocationDropdown from '@/components/LocationDropdown.vue'
 import MetricCard from '@/components/MetricCard.vue'
 import TrendChart from '@/components/TrendChart.vue'
+import { useTrendsStore } from '@/stores/useTrendsStore'
 
-const selectedLocation = ref(locations[0])
+const store = useTrendsStore()
+
+onMounted(() => {
+  if (!store.isLoaded) store.loadData()
+})
+
+const selectedLocation = ref<Location | null>(null)
+
+watch(
+  () => store.locations,
+  (locs) => {
+    if (!selectedLocation.value && locs.length) {
+      selectedLocation.value = locs[0]
+    }
+  },
+  { immediate: true },
+)
 
 const metrics = computed(() => {
-  const trends: TrendMap = trendsRaw
+  const trends: TrendMap = store.trends
+  if (!selectedLocation.value) return []
   const trend: Trend = trends[String(selectedLocation.value.id)]
 
   if (!trend) return []
@@ -48,11 +64,11 @@ function calcDelta(current: number, previous: number, isPercent = false) {
 
 <template>
   <main class="w-full min-h-screen p-4 md:px-8 sm:py-20 bg-background flex justify-center">
-    <div class="w-full mx-auto flex flex-col gap-8">
+    <div v-if="selectedLocation" class="w-full mx-auto flex flex-col gap-8">
       <div class="flex flex-col xl:flex-row items-center justify-between gap-6">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <img src="@/assets/images/Logo.png" alt="Logo" class="w-20 h-auto mb-4" />
-          <LocationDropdown v-model:selected="selectedLocation" />
+          <LocationDropdown v-model:selected="selectedLocation" :locations="store.locations" />
         </div>
 
         <div class="w-full xl:w-auto grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -66,7 +82,13 @@ function calcDelta(current: number, previous: number, isPercent = false) {
         </div>
       </div>
 
-      <TrendChart :location-id="selectedLocation.id" :history-data="trendsHistoryRaw" />
+      <TrendChart
+        v-if="selectedLocation"
+        :location-id="selectedLocation.id"
+        :history-data="store.trendsHistory"
+      />
     </div>
+
+    <div v-else class="text-center text-gray-500">Loading...</div>
   </main>
 </template>
